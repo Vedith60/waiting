@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ZYXEN – Coming Soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050506;
+      --card-bg: rgba(17, 17, 19, 0.96);
+      --accent: #ff7ca8;
+      --accent-soft: #ffd1e2;
+      --text-main: #f7f3ff;
+      --text-sub: #c4c4d0;
+      --button-bg: #ff4f8a;
+      --button-bg-end: #ffb07a;
+      --button-shadow: 0 18px 35px rgba(255, 127, 178, 0.4);
+      --border-soft: rgba(255,255,255,0.06);
+      --radius-lg: 32px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1a1024 0, var(--bg) 40%);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: stretch;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255, 181, 218, 0.12) 0, transparent 50%),
+        radial-gradient(circle at 80% 100%, rgba(255, 152, 108, 0.08) 0, transparent 55%);
+      mix-blend-mode: screen;
+      z-index: -3;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1120px;
+      padding: 24px 20px 48px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* NAVBAR */
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      /*margin-bottom: 40px;*/
+      text-align: center;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* gap: 14px; */
+    }
+
+    .nav-logo {
+      width: 400px;        /* big logo */
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.75));
+    }
+
+    /* HERO SECTION */
+
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 140px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 32px;
+    }
+
+    .hero-inner {
+      position: relative;
+      width: 100%;
+      max-width: 860px;
+      padding: 40px 32px 32px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: radial-gradient(circle at top left, rgba(255, 193, 218, 0.12) 0, transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(255, 166, 123, 0.08) 0, transparent 60%),
+                  var(--card-bg);
+      box-shadow:
+        0 40px 80px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+
+    /* === GLOBAL BACKGROUND PARTICLE EFFECT (FULL PAGE) === */
+
+    .global-bg {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    .diag-line {
+      position: absolute;
+      width: 2px;
+      background: linear-gradient(to bottom, rgba(255, 209, 226, 0.7), transparent);
+      height: 260px;
+      animation: diagonal-line 3s ease-in-out infinite;
+      opacity: 0;
+    }
+
+    .diag-line:nth-child(1) { left: 22%; top: -40px; animation-delay: 0s; }
+    .diag-line:nth-child(2) {
+      left: 32%; top: -40px; height: 220px;
+      background: linear-gradient(to bottom, rgba(255, 155, 108, 0.6), transparent);
+      animation-delay: 0.3s;
+    }
+    .diag-line:nth-child(3) {
+      right: 22%; top: -40px;
+      background: linear-gradient(to bottom, rgba(255, 209, 226, 0.5), transparent);
+      animation-delay: 0.6s;
+    }
+    .diag-line:nth-child(4) {
+      right: 32%; top: -40px; height: 220px;
+      background: linear-gradient(to bottom, rgba(255, 155, 108, 0.4), transparent);
+      animation-delay: 0.9s;
+    }
+
+    @keyframes diagonal-line {
+      0%   { opacity: 0; transform: translateY(-100%); }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { opacity: 0; transform: translateY(100%); }
+    }
+
+    .shape {
+      position: absolute;
+      border-radius: 32px;
+      background: radial-gradient(circle at top left, rgba(255, 209, 226, 0.22), transparent 65%);
+      width: 260px;
+      height: 260px;
+      animation: flow-geometric 8s ease-in-out infinite;
+      opacity: 0.45;
+    }
+
+    .shape.shape-1 {
+      top: 25%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: 0s;
+    }
+
+    .shape.shape-2 {
+      top: 50%;
+      right: 8%;
+      width: 230px;
+      height: 230px;
+      background: radial-gradient(circle at bottom right, rgba(255, 155, 108, 0.2), transparent 70%);
+      animation-delay: 0.5s;
+    }
+
+    @keyframes flow-geometric {
+      0% {
+        transform: translateY(0px) scale(0.8) rotate(0deg);
+        opacity: 0.25;
+      }
+      50% {
+        transform: translateY(-30px) scale(1) rotate(4deg);
+        opacity: 0.55;
+      }
+      100% {
+        transform: translateY(0px) scale(0.8) rotate(0deg);
+        opacity: 0.25;
+      }
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 209, 226, 0.35);
+      width: 170px;
+      height: 170px;
+      animation: ripple-expand 2s ease-out infinite;
+      opacity: 0;
+    }
+
+    .ripple.ripple-1 {
+      bottom: 18%;
+      left: 22%;
+      animation-delay: 0s;
+    }
+
+    .ripple.ripple-2 {
+      bottom: 26%;
+      right: 26%;
+      width: 150px;
+      height: 150px;
+      border-color: rgba(255, 155, 108, 0.4);
+      animation-delay: 1s;
+    }
+
+    @keyframes ripple-expand {
+      0%   { transform: scale(0); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+
+    .particle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      animation: particle-float 3s ease-in infinite;
+      opacity: 0;
+    }
+
+    .particle.p1 { top: 18px; left: 35px; animation-delay: 0s; }
+    .particle.p2 { top: 70px; right: 40px; background: var(--accent); animation-delay: 0.4s; }
+    .particle.p3 { bottom: 40px; left: 18%; animation-delay: 0.8s; }
+    .particle.p4 { bottom: 20px; right: 20%; background: var(--accent); animation-delay: 1.2s; }
+
+    @keyframes particle-float {
+      0%, 100% { transform: translate(0,0); opacity: 0; }
+      20%      { opacity: 1; }
+      80%      { opacity: 1; }
+      100%     { transform: translate(24px,-60px); opacity: 0; }
+    }
+
+    /* STACKED CARDS (keep only in hero) */
+
+    .bg-stack {
+      position: absolute;
+      inset: 32px 24px;
+      pointer-events: none;
+      z-index: 1;
+      filter: blur(0.3px);
+    }
+
+    .bg-card {
+      position: absolute;
+      inset: 0;
+      border-radius: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.07), rgba(12, 12, 18, 0.95));
+      opacity: 0.12;
+      transform-origin: center;
+      animation: floatCard 20s ease-in-out infinite alternate;
+    }
+
+    .bg-card:nth-child(1) {
+      transform: translate(-18px, 24px) rotate(-6deg) scale(1.05);
+      animation-delay: -2s;
+    }
+
+    .bg-card:nth-child(2) {
+      transform: translate(18px, -22px) rotate(4deg) scale(1.02);
+      animation-delay: -6s;
+      opacity: 0.16;
+    }
+
+    .bg-card:nth-child(3) {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 0.09;
+      animation-delay: -10s;
+    }
+
+    @keyframes floatCard {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+      }
+      50% {
+        transform: translate3d(0, -8px, 0) scale(1.01) rotate(0.6deg);
+      }
+      100% {
+        transform: translate3d(0, 4px, 0) scale(1.005) rotate(-0.6deg);
+      }
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(28px);
+      opacity: 0.6;
+      mix-blend-mode: screen;
+      animation: floatOrb 24s ease-in-out infinite alternate;
+      z-index: 1;
+    }
+
+    .orb.orb-1 {
+      width: 260px;
+      height: 260px;
+      top: -80px;
+      left: -40px;
+      background: radial-gradient(circle, rgba(255, 172, 212, 0.7), transparent 60%);
+    }
+
+    .orb.orb-2 {
+      width: 300px;
+      height: 300px;
+      bottom: -120px;
+      right: -20px;
+      background: radial-gradient(circle, rgba(255, 155, 108, 0.6), transparent 65%);
+      animation-delay: -8s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(10px, -20px, 0) scale(1.05); }
+      100% { transform: translate3d(-8px, 6px, 0) scale(0.98); }
+    }
+
+    /* HERO CONTENT */
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 640px;
+      margin-inline: auto;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 900ms ease, transform 900ms ease;
+    }
+
+    body.loaded .hero-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      align-self: flex-start;
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(6, 6, 10, 0.65);
+      backdrop-filter: blur(10px);
+      color: var(--accent-soft);
+    }
+
+    .hero-pill span.icon {
+      font-size: 14px;
+    }
+
+    .hero-heading {
+      font-family: "Poppins", system-ui;
+      font-weight: 600;
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      color: var(--text-main);
+    }
+
+    .hero-heading span.highlight {
+      color: var(--accent-soft);
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .btn-primary {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 12px 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1b0b14;
+      background-image: linear-gradient(135deg, var(--button-bg), var(--button-bg-end));
+      box-shadow: var(--button-shadow);
+      transform: translateY(0);
+      transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
+    }
+
+    .btn-primary span.icon {
+      font-size: 16px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.01);
+      filter: brightness(1.02);
+      box-shadow: 0 22px 40px rgba(255, 120, 170, 0.55);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0) scale(0.99);
+      box-shadow: 0 10px 24px rgba(255, 120, 170, 0.4);
+    }
+
+    .hero-note {
+      font-size: 13px;
+      color: #9a9ab3;
+    }
+
+    .muted {
+      color: #6f7082;
+    }
+
+    .hero-footer {
+      position: relative;
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 13px;
+      color: #a4a4bd;
+    }
+
+    .hero-footer strong {
+      color: #d8d8ef;
+      font-weight: 500;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 768px) {
+      .page {
+        padding-inline: 16px;
+      }
+
+      .nav-logo {
+        width: 200px;
+      }
+
+      .hero-inner {
+        padding: 28px 20px 24px;
+      }
+
+      .bg-stack {
+        inset: 22px 12px;
+      }
+
+      .hero-content {
+        text-align: left;
+      }
+
+      .hero-cta-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- GLOBAL ANIMATED BACKGROUND -->
+  <div class="global-bg" aria-hidden="true">
+    <!-- diagonal lines -->
+    <div class="diag-line"></div>
+    <div class="diag-line"></div>
+    <div class="diag-line"></div>
+    <div class="diag-line"></div>
+
+    <!-- shapes -->
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+
+    <!-- ripples -->
+    <div class="ripple ripple-1"></div>
+    <div class="ripple ripple-2"></div>
+
+    <!-- particles -->
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+    <div class="particle p4"></div>
+  </div>
+
+  <div class="page">
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-left">
+        <img src="zyxen-logo.png" alt="ZYXEN Logo" class="nav-logo" />
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <main class="hero">
+      <div class="hero-inner">
+        <!-- stacked cards -->
+        <div class="bg-stack" aria-hidden="true">
+          <div class="bg-card"></div>
+          <div class="bg-card"></div>
+          <div class="bg-card"></div>
+        </div>
+
+        <!-- glowing orbs -->
+        <div class="orb orb-1" aria-hidden="true"></div>
+        <div class="orb orb-2" aria-hidden="true"></div>
+
+        <section class="hero-content">
+          <div class="hero-pill">
+            <span class="icon">✨</span>
+            <span>Something special is in the works</span>
+          </div>
+
+          <div>
+            <h1 class="hero-heading">
+              Something <span class="highlight">Extraordinary</span><br />
+              is Coming
+            </h1>
+            <p class="hero-subtitle">
+              Where Intelligence Meets Elegance – a new wave of IT solutions crafted for the modern world.
+            </p>
+          </div>
+
+          <div class="hero-cta-row">
+            <button class="btn-primary">
+              <span class="icon">🚀</span>
+              <span>Launching Soon</span>
+            </button>
+            <p class="hero-note">
+              Stay tuned for the unveiling of a <span class="muted">refined digital experience</span>.
+            </p>
+          </div>
+
+          <div class="hero-footer">
+            We’re crafting something truly special. <strong>Check back soon</strong> to see how ZYXEN will
+            reshape the way you experience technology and design.
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    window.addEventListener("load", function () {
+      document.body.classList.add("loaded");
+    });
+  </script>
+</body>
+</html>
